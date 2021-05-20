@@ -17,6 +17,7 @@ impl Nitrous {
 
     // Logging
     pretty_env_logger::init();
+    human_panic::setup_panic!();
 
     crate::cli::Cli::execute().await;
   }
