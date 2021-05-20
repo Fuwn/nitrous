@@ -1,8 +1,6 @@
 📘 Nitrous
 ==========
 
-Proxy support coming soon!
-
 What?
 -----
 
@@ -17,6 +15,11 @@ Building
 .. code-block:: shell
 
   $ cargo build --release
+
+Notes
+-----
+
+Proxy support coming soon!
 
 License
 -------
