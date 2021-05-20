@@ -19,7 +19,6 @@ reorder_impl_items = true
 group_imports = "StdExternalCrate"
 reorder_modules = true
 report_fixme = "Always"
-#report_todo = "Always"
 struct_field_align_threshold = 20
 struct_lit_single_line = false
 tab_spaces = 2
