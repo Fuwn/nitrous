@@ -1,0 +1,47 @@
+name: Release ⚾
+
+on:
+  push:
+    tags:
+      - 'v*'
+    
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛒
+        uses: actions/checkout@v2
+        
+      - name: Toolchain 🧰
+        uses: actions-rs/toolchain@v1
+        with:
+          profile-minimal: minimal
+          toolchain: nightly-2021-05-19
+          components: rustfmt, clippy
+          override: true
+          
+      - name: Build 🏗
+        uses: actions-rs/cargo@v1
+        continue-on-error: false
+        with:
+          command: build --release
+          
+      - name: Create Release 🏉
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+        
+      - name: Upload Artifacts to Release 💎
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/release/nitrous
+          asset_name: nitrous
