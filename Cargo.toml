@@ -1,0 +1,42 @@
+[package]
+name = "nitrous"
+version = "0.1.0"
+authors = ["Fuwn <fuwnzy@gmail.com>"]
+edition = "2018"
+readme = "README.rst"
+homepage = "https://github.com/fuwn/nitrous"
+repository = "https://github.com/fuwn/nitrous"
+license = "GPL-3.0-only"
+keywords = ["rust", "discord", "checker"]
+publish = false
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+
+[dependencies]
+# CLI
+structopt = "0.3.21"
+
+# Utility
+rand = "0.8.3"
+
+# Logging
+log = "0.4.14"
+pretty_env_logger = "0.4.0"
+human-panic = "1.0.3"
+
+# Environment
+dotenv = "0.15.0"
+
+# Web
+reqwest = "0.11.3"
+tokio = { version = "1.6.0", features = ["full"] }
+
+
+# Allocator
+[target.'cfg(target_family = "windows")'.dependencies]
+mimalloc = { version = "0.1.25", default-features = false }
+
+[target.'cfg(target_family = "unix")'.dependencies]
+jemallocator = "0.3.2"
