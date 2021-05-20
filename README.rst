@@ -49,10 +49,10 @@ override this behaviour, specify your file after the subcommand;
 
   $ nitrous check /path/to/codes.txt
 
-Notes
------
+Up and Comming
+--------------
 
-Proxy support coming soon!
+- Proxy support
 
 License
 -------
