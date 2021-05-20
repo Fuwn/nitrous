@@ -24,7 +24,8 @@ jobs:
         uses: actions-rs/cargo@v1
         continue-on-error: false
         with:
-          command: build --release
+          command: build
+          args: --release
           
       - name: Create Release 🏉
         id: create_release
