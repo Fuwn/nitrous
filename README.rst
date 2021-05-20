@@ -6,6 +6,12 @@ What?
 
 Nitrous is a Discord Nitro code generator and checker.
 
+Why should I use Nitrous?
+-------------------------
+- Nitrous is very fast.
+- Nitrous is simple to use.
+- Nitrous is efficient.
+
 Getting up and running
 ----------------------
 
