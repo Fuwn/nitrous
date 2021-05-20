@@ -39,11 +39,15 @@ Checking Codes
 
 .. code-block:: shell
 
-  $ nitrous check <path/to/codes.txt>
+  $ nitrous check
 
-The path to your codes.txt may be any specified path as long as the file exists.
+The previous command (without any specified codes file) will run the check
+routine on a default file value of `./nitrous/codes.txt`. If you would like to
+override this behaviour, specify your file after the subcommand;
 
-The
+.. code-block:: shell
+
+  $ nitrous check /path/to/codes.txt
 
 Notes
 -----
