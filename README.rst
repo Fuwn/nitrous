@@ -49,6 +49,12 @@ override this behaviour, specify your file after the subcommand;
 
   $ nitrous check /path/to/codes.txt
 
+Prebuilt Binaries
+"""""""""""""""""
+
+Prebuilt binaries for the latest release may be found
+`here <https://github.com/fuwn/nitrous/releases/latest>`_.
+
 Up and Comming
 --------------
 
