@@ -13,6 +13,11 @@ impl Cli {
   pub async fn execute() {
     let matches = Self::cli().get_matches();
 
+    let mut debug = false;
+    if matches.is_present("debug") {
+      debug = true;
+    }
+
     if matches.is_present("generate") {
       Nitrous::generate(
         matches
@@ -23,6 +28,7 @@ impl Cli {
           .to_string()
           .parse::<usize>()
           .unwrap(),
+        debug,
       );
     } else if matches.is_present("check") {
       Nitrous::check(
@@ -31,6 +37,7 @@ impl Cli {
           .unwrap()
           .value_of("file")
           .unwrap(),
+        debug,
       )
       .await;
     }
@@ -56,5 +63,12 @@ impl Cli {
             .index(1),
         ),
       ])
+      .arg(Arg::with_name("debug")
+        .long("debug")
+        .short("d")
+        .takes_value(false)
+        .multiple(false)
+        .global(true)
+      )
   }
 }
