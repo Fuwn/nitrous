@@ -12,7 +12,7 @@ Why should I use Nitrous?
 - Nitrous is simple to use.
 - Nitrous is efficient.
 
-Getting up and running
+Getting up and Running
 ----------------------
 
 Building
@@ -21,6 +21,29 @@ Building
 .. code-block:: shell
 
   $ cargo build --release
+
+Running
+^^^^^^^
+
+Generating Codes
+""""""""""""""""
+
+.. code-block:: shell
+
+  $ nitrous generate <amount>
+
+The amount may be **any** number, your CPU is the only limit.
+
+Checking Codes
+""""""""""""""
+
+.. code-block:: shell
+
+  $ nitrous check <path/to/codes.txt>
+
+The path to your codes.txt may be any specified path as long as the file exists.
+
+The
 
 Notes
 -----
