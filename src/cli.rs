@@ -32,11 +32,21 @@ impl Cli {
       );
     } else if matches.is_present("check") {
       Nitrous::check(
-        matches
-          .subcommand_matches("check")
-          .unwrap()
-          .value_of("file")
-          .unwrap(),
+        {
+          let argument = matches
+            .subcommand_matches("check")
+            .unwrap()
+            .value_of("file");
+          if argument.is_some() {
+            argument.unwrap()
+          } else {
+            if std::fs::File::open("nitrous/codes.txt").is_err() {
+              panic!("cannot open nitrous generated codes.txt");
+            } else {
+              "nitrous/codes.txt"
+            }
+          }
+        },
         debug,
       )
       .await;
@@ -50,25 +60,37 @@ impl Cli {
       .author(env!("CARGO_PKG_AUTHORS"))
       .setting(clap::AppSettings::SubcommandRequiredElseHelp)
       .subcommands(vec![
-        SubCommand::with_name("generate").alias("gen").arg(
-          Arg::with_name("amount")
-            .required(true)
-            .index(1)
-            .takes_value(true),
-        ),
-        SubCommand::with_name("check").arg(
-          Arg::with_name("file")
-            .required(true)
-            .takes_value(true)
-            .index(1),
-        ),
+        SubCommand::with_name("generate")
+          .alias("gen")
+          .about("Generate a specified number Discord Nitro codes")
+          .arg(
+            Arg::with_name("amount")
+              .required(true)
+              .index(1)
+              .takes_value(true),
+          ),
+        SubCommand::with_name("check")
+          .about("Check a file of Discord Nitro codes for valid/ invalid codes")
+          .long_about(
+            "Check a file of Discord Nitro codes for valid/ invalid codes.\n\nIf a codes file is \
+             not explicitly specified, the check routine will run on a default file value of \
+             `./nitrous/codes.txt`. If you would like to override this behaviour, specify your \
+             file after the subcommand.",
+          )
+          .arg(
+            Arg::with_name("file")
+              .required(false)
+              .takes_value(true)
+              .index(1),
+          ),
       ])
-      .arg(Arg::with_name("debug")
-        .long("debug")
-        .short("d")
-        .takes_value(false)
-        .multiple(false)
-        .global(true)
+      .arg(
+        Arg::with_name("debug")
+          .long("debug")
+          .short("d")
+          .takes_value(false)
+          .multiple(false)
+          .global(true),
       )
   }
 }
