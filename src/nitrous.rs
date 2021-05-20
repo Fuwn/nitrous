@@ -23,7 +23,7 @@ impl Nitrous {
 
   fn initialize() { let _ = create_dir("nitrous"); }
 
-  pub fn generate(amount: usize) {
+  pub fn generate(amount: usize, debug: bool) {
     Self::initialize();
 
     let mut codes = File::create("nitrous/codes.txt").unwrap();
@@ -36,11 +36,13 @@ impl Nitrous {
         .collect::<String>();
 
       writeln!(codes, "{}", code).unwrap();
-      info!("{}", code,)
+      if debug {
+        info!("{}", code,);
+      }
     }
   }
 
-  pub async fn check(codes_file_name: &str) {
+  pub async fn check(codes_file_name: &str, debug: bool) {
     Self::initialize();
 
     let _ = create_dir("nitrous/check/");
@@ -62,10 +64,14 @@ impl Nitrous {
 
       if status == 200 {
         writeln!(valid, "{}", code).unwrap();
-        info!("{}", code);
+        if debug {
+          info!("{}", code);
+        }
       } else {
         writeln!(invalid, "{}", code).unwrap();
-        error!("{}", code);
+        if debug {
+          error!("{}", code);
+        }
       }
     }
   }
