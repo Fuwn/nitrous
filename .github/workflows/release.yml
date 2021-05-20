@@ -15,7 +15,7 @@ jobs:
       - name: Toolchain 🧰
         uses: actions-rs/toolchain@v1
         with:
-          profile-minimal: minimal
+          profile: minimal
           toolchain: nightly-2021-05-19
           components: rustfmt, clippy
           override: true
