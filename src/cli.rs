@@ -81,6 +81,19 @@ impl Cli {
             .unwrap_or("null"),
         )
         .await,
+      ("clean", _) => {
+        for dir in vec![".nitrous/check/", ".nitrous/"] {
+          let file_type = if dir.ends_with('/') {
+            "directory"
+          } else {
+            "file"
+          };
+          info!("cleaning {}: {}", file_type, dir);
+          if let Err(e) = std::fs::remove_dir_all(dir) {
+            warn!("cannot delete {}: {}: {}", file_type, dir, e);
+          }
+        }
+      },
       _ => unreachable!(),
     }
   }
@@ -131,6 +144,8 @@ impl Cli {
               .takes_value(true)
               .index(2),
           ]),
+        SubCommand::with_name("clean")
+          .about("Delete Nitrous-generated files/ directories which are NOT critical."),
       ])
       .arg(
         Arg::with_name("debug")
