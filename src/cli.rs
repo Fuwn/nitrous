@@ -81,8 +81,8 @@ impl Cli {
             .unwrap_or("null"),
         )
         .await,
-      ("clean", _) => {
-        for dir in vec![".nitrous/check/", ".nitrous/"] {
+      ("clean", _) =>
+        for dir in &[".nitrous/check/", ".nitrous/"] {
           let file_type = if dir.ends_with('/') {
             "directory"
           } else {
@@ -92,8 +92,7 @@ impl Cli {
           if let Err(e) = std::fs::remove_dir_all(dir) {
             warn!("cannot delete {}: {}: {}", file_type, dir, e);
           }
-        }
-      },
+        },
       _ => unreachable!(),
     }
   }
