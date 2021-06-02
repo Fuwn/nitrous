@@ -60,7 +60,7 @@ of the other supported proxy types, -- :code:`http`, :code:`socks4`, or
   $ nitrous check socks5 ./socks5_proxies.txt
 
 The previous command (without any specified codes file) will run the check
-routine on a default file value of :code:`./nitrous/codes.txt`. If you would
+routine on a default file value of :code:`./.nitrous/codes.txt`. If you would
 like to override this behaviour, specify your file after the proxy type with the
 :code:`file` flag;
 
