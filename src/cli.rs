@@ -1,12 +1,34 @@
 // Copyleft (ɔ) 2021-2021 Fuwn
 // SPDX-License-Identifier: GPL-3.0-only
 
+use std::str::FromStr;
+
 use structopt::{
   clap,
   clap::{App, Arg, SubCommand},
 };
 
 use crate::nitrous::Nitrous;
+
+pub enum ProxyType {
+  Http,
+  Socks4,
+  Socks5,
+  Tor,
+}
+impl FromStr for ProxyType {
+  type Err = &'static str;
+
+  fn from_str(s: &str) -> Result<Self, Self::Err> {
+    match s {
+      "http" => Ok(Self::Http),
+      "socks4" => Ok(Self::Socks4),
+      "socks5" => Ok(Self::Socks5),
+      "tor" => Ok(Self::Tor),
+      _ => Err("no match"),
+    }
+  }
+}
 
 pub struct Cli;
 impl Cli {
@@ -43,6 +65,19 @@ impl Cli {
           }
         },
         debug,
+        ProxyType::from_str(
+          matches
+            .subcommand_matches("check")
+            .unwrap()
+            .value_of("proxy_type")
+            .unwrap(),
+        )
+        .unwrap(),
+        matches
+          .subcommand_matches("check")
+          .unwrap()
+          .value_of("proxy_list")
+          .unwrap_or("null"),
       )
       .await;
     }
@@ -76,8 +111,24 @@ impl Cli {
             Arg::with_name("file")
               .required(false)
               .takes_value(true)
-              .index(1),
-          ),
+              .long("file")
+              .short("f"),
+          )
+          .args(&[
+            Arg::with_name("proxy_type")
+              .required(true)
+              .takes_value(true)
+              .index(1)
+              .possible_values(&["http", "socks4", "socks5", "tor"]),
+            Arg::with_name("proxy_list")
+              .required_ifs(&[
+                ("proxy_type", "http"),
+                ("proxy_type", "socks4"),
+                ("proxy_type", "socks5"),
+              ])
+              .takes_value(true)
+              .index(2),
+          ]),
       ])
       .arg(
         Arg::with_name("debug")

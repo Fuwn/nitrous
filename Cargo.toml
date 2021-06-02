@@ -30,9 +30,8 @@ human-panic = "1.0.3"
 dotenv = "0.15.0"
 
 # Web
-reqwest = "0.11.3"
+reqwest = { version = "0.11.3", features = ["socks"] }
 tokio = { version = "1.6.0", features = ["full"] }
-
 
 # Allocator
 [target.'cfg(target_family = "windows")'.dependencies]
