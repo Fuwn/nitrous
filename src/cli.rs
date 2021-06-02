@@ -13,10 +13,7 @@ impl Cli {
   pub async fn execute() {
     let matches = Self::cli().get_matches();
 
-    let mut debug = false;
-    if matches.is_present("debug") {
-      debug = true;
-    }
+    let debug = matches.is_present("debug");
 
     if matches.is_present("generate") {
       Nitrous::generate(
@@ -39,12 +36,10 @@ impl Cli {
             .value_of("file");
           if argument.is_some() {
             argument.unwrap()
+          } else if std::fs::File::open("nitrous/codes.txt").is_err() {
+            panic!("cannot open nitrous generated codes.txt");
           } else {
-            if std::fs::File::open("nitrous/codes.txt").is_err() {
-              panic!("cannot open nitrous generated codes.txt");
-            } else {
-              "nitrous/codes.txt"
-            }
+            "nitrous/codes.txt"
           }
         },
         debug,
