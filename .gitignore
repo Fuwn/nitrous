@@ -15,4 +15,4 @@ Cargo.lock
 
 # Development
 /src/_*.*
-/nitrous/
+/.nitrous/
