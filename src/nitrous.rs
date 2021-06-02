@@ -59,6 +59,8 @@ impl Nitrous {
     let codes = File::open(codes_file_name).unwrap();
     let mut invalid = File::create(".nitrous/check/invalid.txt").unwrap();
     let mut valid = File::create(".nitrous/check/valid.txt").unwrap();
+    let mut valid_count = 0;
+    let mut invalid_count = 0;
 
     for code in std::io::BufReader::new(codes).lines() {
       let proxy_addr = if matches!(&proxy_type, ProxyType::Tor) {
@@ -99,12 +101,19 @@ impl Nitrous {
         if debug {
           info!("{}: {}", proxy_addr, code);
         }
+        valid_count += 1;
       } else {
         writeln!(invalid, "{}", code).unwrap();
         if debug {
           error!("{}: {}", proxy_addr, code);
         }
+        invalid_count += 1;
       }
     }
+
+    println!(
+      "\nfinished!\n\nvalid: {}\ninvalid: {}",
+      valid_count, invalid_count
+    );
   }
 }
