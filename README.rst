@@ -15,15 +15,23 @@ Why should I use Nitrous?
 Getting up and Running
 ----------------------
 
-Building
-^^^^^^^^
+Installation
+^^^^^^^^^^^^
+
+A prebuilt binary for x86_64-based Linux systems is available in the
+`releases <https://github.com/fuwn/nitrous/releases/latest>`_. If you are using
+a different operating system such as macOS or Windows, you'll have to build and
+install the tool yourself!
 
 .. code-block:: shell
 
-  $ cargo build --release
+  $ cargo install --git https://github.com/fuwn/nitrous
 
-Running
-^^^^^^^
+If you are building and installing yourself, you must have
+`Rust <https://www.rust-lang.org/>`_ installed!
+
+Usage
+^^^^^
 
 Generating Codes
 """"""""""""""""
@@ -31,8 +39,6 @@ Generating Codes
 .. code-block:: shell
 
   $ nitrous generate <amount>
-
-The amount may be **any** number, your CPU is the only limit.
 
 Checking Codes
 """"""""""""""
@@ -42,8 +48,8 @@ Checking Codes
   $ nitrous check tor
 
 It is recommended that you use Tor as a proxy, however, if you'd like to use any
-of the other supported proxy types, -- http, socks4, or socks5 -- you can can
-specify your proxy file as so;
+of the other supported proxy types, -- :code:`http`, :code:`socks4`, or
+:code:`socks5` -- you can can specify your proxy file as so;
 
 .. code-block:: shell
 
