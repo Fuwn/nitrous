@@ -22,7 +22,7 @@ impl Nitrous {
     crate::cli::Cli::execute().await;
   }
 
-  fn initialize() { let _ = create_dir("nitrous"); }
+  fn initialize() { create_dir("nitrous").unwrap(); }
 
   pub fn generate(amount: usize, debug: bool) {
     Self::initialize();
@@ -46,7 +46,7 @@ impl Nitrous {
   pub async fn check(codes_file_name: &str, debug: bool) {
     Self::initialize();
 
-    let _ = create_dir("nitrous/check/");
+    create_dir("nitrous/check/").unwrap();
     let codes = File::open(codes_file_name).unwrap();
     let mut invalid = File::create("nitrous/check/invalid.txt").unwrap();
     let mut valid = File::create("nitrous/check/valid.txt").unwrap();
