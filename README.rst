@@ -68,10 +68,10 @@ Prebuilt Binaries
 Prebuilt binaries for the latest release may be found
 `here <https://github.com/fuwn/nitrous/releases/latest>`_.
 
-Up and Comming
+Up and Coming
 --------------
 
-- Proxy support
+- Multi-threaded support
 
 License
 -------
