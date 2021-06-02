@@ -3,10 +3,12 @@
 
 use std::{
   fs::{create_dir, File},
-  io::{BufRead, Write},
+  io::{BufRead, BufReader, Write},
 };
 
-use rand::Rng;
+use rand::{seq::IteratorRandom, Rng};
+
+use crate::cli::ProxyType;
 
 pub struct Nitrous;
 impl Nitrous {
@@ -22,7 +24,8 @@ impl Nitrous {
     crate::cli::Cli::execute().await;
   }
 
-  fn initialize() { create_dir("nitrous").unwrap(); }
+  #[allow(clippy::let_underscore_drop)]
+  fn initialize() { let _ = create_dir("nitrous"); }
 
   pub fn generate(amount: usize, debug: bool) {
     Self::initialize();
@@ -43,35 +46,63 @@ impl Nitrous {
     }
   }
 
-  pub async fn check(codes_file_name: &str, debug: bool) {
+  pub async fn check(
+    codes_file_name: &str,
+    debug: bool,
+    proxy_type: crate::cli::ProxyType,
+    proxy_file: &str,
+  ) {
     Self::initialize();
 
-    create_dir("nitrous/check/").unwrap();
+    #[allow(clippy::let_underscore_drop)]
+    let _ = create_dir("nitrous/check/");
     let codes = File::open(codes_file_name).unwrap();
     let mut invalid = File::create("nitrous/check/invalid.txt").unwrap();
     let mut valid = File::create("nitrous/check/valid.txt").unwrap();
 
     for code in std::io::BufReader::new(codes).lines() {
+      let proxy_addr = if matches!(&proxy_type, ProxyType::Tor) {
+        "127.0.0.1:9050".to_string()
+      } else {
+        BufReader::new(
+          File::open(proxy_file).unwrap_or_else(|e| panic!("unable to open file: {}", e)),
+        )
+        .lines()
+        .map(|l| l.expect("couldn't read line"))
+        .choose(&mut rand::thread_rng())
+        .expect("file had no lines")
+      };
+
       let code = code.unwrap();
-      let status = reqwest::get(format!(
-		      "https://discordapp.com/api/v6/entitlements/gift-codes/{}?with_applica\
-		      tion=false&with_subscription_plan=true",
-		      code
-	      ))
-      .await
-      .unwrap()
-      .status()
-      .as_u16();
+      let status = reqwest::Client::builder()
+        .proxy(reqwest::Proxy::all(format!("{}://{}", {
+          match proxy_type {
+            ProxyType::Http => "http",
+            ProxyType::Socks4 => "socks4h",
+            ProxyType::Socks5 | ProxyType::Tor => "socks5h",
+          }
+        }, proxy_addr)).unwrap())
+        .build()
+        .unwrap()
+        .get(
+          format!("https://discordapp.com/api/v6/entitlements/gift-codes/{}?with_application=false&\
+          with_subscription_plan=true", code),
+        )
+        .send()
+        .await
+        .unwrap()
+        .status()
+        .as_u16();
 
       if status == 200 {
         writeln!(valid, "{}", code).unwrap();
         if debug {
-          info!("{}", code);
+          info!("{}: {}", proxy_addr, code);
         }
       } else {
         writeln!(invalid, "{}", code).unwrap();
         if debug {
-          error!("{}", code);
+          error!("{}: {}", proxy_addr, code);
         }
       }
     }

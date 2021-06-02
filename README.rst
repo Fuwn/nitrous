@@ -39,15 +39,28 @@ Checking Codes
 
 .. code-block:: shell
 
-  $ nitrous check
+  $ nitrous check tor
 
-The previous command (without any specified codes file) will run the check
-routine on a default file value of :code:`./nitrous/codes.txt`. If you would like to
-override this behaviour, specify your file after the subcommand;
+It is recommended that you use Tor as a proxy, however, if you'd like to use any
+of the other supported proxy types, -- http, socks4, or socks5 -- you can can
+specify your proxy file as so;
 
 .. code-block:: shell
 
-  $ nitrous check /path/to/codes.txt
+  $ nitrous check <proxy_type> [proxy_list]
+
+.. code-block:: shell
+
+  $ nitrous check socks5 ./socks5_proxies.txt
+
+The previous command (without any specified codes file) will run the check
+routine on a default file value of :code:`./nitrous/codes.txt`. If you would
+like to override this behaviour, specify your file after the proxy type with the
+:code:`file` flag;
+
+.. code-block:: shell
+
+  $ nitrous check tor --file /path/to/codes.txt # `-f` also works!
 
 Prebuilt Binaries
 """""""""""""""""
