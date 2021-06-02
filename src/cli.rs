@@ -37,49 +37,51 @@ impl Cli {
 
     let debug = matches.is_present("debug");
 
-    if matches.is_present("generate") {
-      Nitrous::generate(
-        matches
-          .subcommand_matches("generate")
-          .unwrap()
-          .value_of("amount")
-          .unwrap()
-          .to_string()
-          .parse::<usize>()
-          .unwrap(),
-        debug,
-      );
-    } else if matches.is_present("check") {
-      Nitrous::check(
-        {
-          let argument = matches
-            .subcommand_matches("check")
+    match matches.subcommand() {
+      ("generate", _) =>
+        Nitrous::generate(
+          matches
+            .subcommand_matches("generate")
             .unwrap()
-            .value_of("file");
-          if argument.is_some() {
-            argument.unwrap()
-          } else if std::fs::File::open(".nitrous/codes.txt").is_err() {
-            panic!("cannot open nitrous generated codes.txt");
-          } else {
-            ".nitrous/codes.txt"
-          }
-        },
-        debug,
-        ProxyType::from_str(
+            .value_of("amount")
+            .unwrap()
+            .to_string()
+            .parse::<usize>()
+            .unwrap(),
+          debug,
+        ),
+      ("check", _) =>
+        Nitrous::check(
+          {
+            let argument = matches
+              .subcommand_matches("check")
+              .unwrap()
+              .value_of("file");
+            if argument.is_some() {
+              argument.unwrap()
+            } else if std::fs::File::open(".nitrous/codes.txt").is_err() {
+              panic!("cannot open nitrous generated codes.txt");
+            } else {
+              ".nitrous/codes.txt"
+            }
+          },
+          debug,
+          ProxyType::from_str(
+            matches
+              .subcommand_matches("check")
+              .unwrap()
+              .value_of("proxy_type")
+              .unwrap(),
+          )
+          .unwrap(),
           matches
             .subcommand_matches("check")
             .unwrap()
-            .value_of("proxy_type")
-            .unwrap(),
+            .value_of("proxy_list")
+            .unwrap_or("null"),
         )
-        .unwrap(),
-        matches
-          .subcommand_matches("check")
-          .unwrap()
-          .value_of("proxy_list")
-          .unwrap_or("null"),
-      )
-      .await;
+        .await,
+      _ => unreachable!(),
     }
   }
 
