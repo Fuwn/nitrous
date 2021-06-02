@@ -25,12 +25,12 @@ impl Nitrous {
   }
 
   #[allow(clippy::let_underscore_drop)]
-  fn initialize() { let _ = create_dir("nitrous"); }
+  fn initialize() { let _ = create_dir(".nitrous"); }
 
   pub fn generate(amount: usize, debug: bool) {
     Self::initialize();
 
-    let mut codes = File::create("nitrous/codes.txt").unwrap();
+    let mut codes = File::create(".nitrous/codes.txt").unwrap();
 
     for _ in 0..amount {
       let code = rand::thread_rng()
@@ -55,10 +55,10 @@ impl Nitrous {
     Self::initialize();
 
     #[allow(clippy::let_underscore_drop)]
-    let _ = create_dir("nitrous/check/");
+    let _ = create_dir(".nitrous/check/");
     let codes = File::open(codes_file_name).unwrap();
-    let mut invalid = File::create("nitrous/check/invalid.txt").unwrap();
-    let mut valid = File::create("nitrous/check/valid.txt").unwrap();
+    let mut invalid = File::create(".nitrous/check/invalid.txt").unwrap();
+    let mut valid = File::create(".nitrous/check/valid.txt").unwrap();
 
     for code in std::io::BufReader::new(codes).lines() {
       let proxy_addr = if matches!(&proxy_type, ProxyType::Tor) {

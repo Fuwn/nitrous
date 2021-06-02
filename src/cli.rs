@@ -58,10 +58,10 @@ impl Cli {
             .value_of("file");
           if argument.is_some() {
             argument.unwrap()
-          } else if std::fs::File::open("nitrous/codes.txt").is_err() {
+          } else if std::fs::File::open(".nitrous/codes.txt").is_err() {
             panic!("cannot open nitrous generated codes.txt");
           } else {
-            "nitrous/codes.txt"
+            ".nitrous/codes.txt"
           }
         },
         debug,
@@ -104,7 +104,7 @@ impl Cli {
           .long_about(
             "Check a file of Discord Nitro codes for valid/ invalid codes.\n\nIf a codes file is \
              not explicitly specified, the check routine will run on a default file value of \
-             `./nitrous/codes.txt`. If you would like to override this behaviour, specify your \
+             `./.nitrous/codes.txt`. If you would like to override this behaviour, specify your \
              file after the subcommand.",
           )
           .arg(
