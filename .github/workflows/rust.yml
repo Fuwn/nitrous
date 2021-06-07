@@ -1,0 +1,36 @@
+name: Rust ✅
+
+on:
+  push:
+    paths:
+      - "src/**"
+      - "Cargo.toml"
+  pull_request:
+    paths:
+      - "src/**"
+      - "Cargo.toml"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  check:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout 🛒
+        uses: actions/checkout@v2
+
+      - name: Toolchain 🧰
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly-2021-06-04
+          components: rustfmt, clippy
+          override: true
+
+      - name: Check ✅
+        uses: actions-rs/cargo@v1
+        continue-on-error: false
+        with:
+          command: check
+          args: --verbose
