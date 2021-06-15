@@ -23,7 +23,7 @@ harness = false
 structopt = "0.3.21"
 
 # Utility
-rand = "0.8.3"
+rand = "0.8.4"
 
 # Logging
 log = "0.4.14"
