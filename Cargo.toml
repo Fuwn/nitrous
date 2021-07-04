@@ -20,7 +20,7 @@ harness = false
 
 [dependencies]
 # CLI
-structopt = "0.3.21"
+structopt = "0.3.22"
 
 # Utility
 rand = "0.8.4"
