@@ -25,7 +25,7 @@ install the tool yourself!
 
 .. code-block:: shell
 
-  $ cargo install --git https://github.com/fuwn/nitrous
+  $ cargo install --git https://github.com/fuwn/nitrous --branch main
 
 If you are building and installing yourself, you must have
 `Rust <https://www.rust-lang.org/>`_ installed!
