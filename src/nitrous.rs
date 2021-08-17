@@ -80,7 +80,7 @@ impl Nitrous {
         .proxy(reqwest::Proxy::all(format!("{}://{}", {
           match proxy_type {
             ProxyType::Http => "http",
-            ProxyType::Socks4 => "socks4h",
+            ProxyType::Socks4 => "socks4",
             ProxyType::Socks5 | ProxyType::Tor => "socks5h",
           }
         }, proxy_addr)).unwrap())
