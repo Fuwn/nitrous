@@ -10,6 +10,7 @@ use structopt::{
 
 use crate::nitrous::Nitrous;
 
+#[derive(PartialEq)]
 pub enum ProxyType {
   Http,
   Socks4,
