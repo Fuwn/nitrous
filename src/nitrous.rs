@@ -77,19 +77,34 @@ impl Nitrous {
 
       let code = code.unwrap();
       let status = reqwest::Client::builder()
-        .proxy(reqwest::Proxy::all(format!("{}://{}", {
-          match proxy_type {
-            ProxyType::Http => "http",
-            ProxyType::Socks4 => "socks4",
-            ProxyType::Socks5 | ProxyType::Tor => "socks5h",
-          }
-        }, proxy_addr)).unwrap())
+        .proxy(
+          reqwest::Proxy::all(format!(
+            "{}://{}",
+            {
+              match proxy_type {
+                ProxyType::Http => "http",
+                ProxyType::Socks4 => "socks4",
+                ProxyType::Socks5 | ProxyType::Tor => "socks5h",
+              }
+            },
+            proxy_addr
+          ))
+          .unwrap(),
+        )
         .build()
         .unwrap()
-        .get(
-          format!("https://discordapp.com/api/v6/entitlements/gift-codes/{}?with_application=false&\
-          with_subscription_plan=true", code),
-        )
+        .get(format!(
+          "{}://discordapp.com/api/v6/entitlements/gift-codes/{}?with_application=false&\
+           with_subscription_plan=true",
+          {
+            if proxy_type == ProxyType::Http {
+              "http"
+            } else {
+              "https"
+            }
+          },
+          code
+        ))
         .send()
         .await
         .unwrap()
