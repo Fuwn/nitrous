@@ -1,4 +1,4 @@
-// Copyleft (ɔ) 2021-2021 Fuwn
+// Copyright (C) 2021-2021 Fuwn
 // SPDX-License-Identifier: GPL-3.0-only
 
 #[macro_use]
