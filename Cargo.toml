@@ -34,7 +34,7 @@ human-panic = "1.0.3"
 dotenv = "0.15.0"
 
 # Web
-reqwest = { version = "0.11.5", features = ["socks"] }
+reqwest = { version = "0.11.6", features = ["socks"] }
 tokio = { version = "1.12.0", features = ["full"] }
 
 # Allocator
