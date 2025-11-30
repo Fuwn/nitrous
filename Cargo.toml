@@ -45,4 +45,4 @@ mimalloc = { version = "0.1.28", default-features = false }
 jemallocator = "0.3.2"
 
 [dev-dependencies]
-criterion = "0.3.5"
+criterion = "0.8.0"
